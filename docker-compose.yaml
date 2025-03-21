@@ -1,0 +1,18 @@
+networks:
+  ms:
+    name: ms-network
+    driver: bridge
+    external: true
+
+services:
+  back:
+    build:
+      context: .
+    container_name: eureka
+    image: img_eureka_java
+    ports:
+      - "8761:8761"
+    expose:
+      - 8761
+    networks:
+      - ms
