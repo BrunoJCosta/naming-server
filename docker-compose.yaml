@@ -16,3 +16,23 @@ services:
       - 8761
     networks:
       - ms
+
+  redis:
+    container_name: redis
+    image: redis/redis-stack
+    ports:
+      - "6379:6379"
+      - "6380:8001"
+    networks:
+      - ms
+    environment:
+      - REDIS_ARGS=--requirepass bruno_application
+    volumes:
+      - ./redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "bruno_application", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    command: redis-server --requirepass bruno_application
